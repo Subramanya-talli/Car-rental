@@ -20,11 +20,11 @@ const carSchema = mongoose.Schema({
     img:
     {
         data: Buffer,
-        contentType: String
+        contentType: String,
     }
 },
 {
-    timestamp: true
+    timestamps: true
 });
 
 const CarInfo = mongoose.model("carinfo",carSchema);

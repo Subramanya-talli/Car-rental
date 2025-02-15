@@ -1,11 +1,12 @@
 const express = require("express");
-const { creatRentalCar } = require("../controllers/carInfoController");
+const { createNewCarEntry, getAllCarInfo, getACarInfo, updateCarInfo, deleteCarInfo } = require("../controllers/carInfoController");
 const route = express.Router();
+const upload = require('../middleware/upload')
 
-route.get("/cars", );
-route.post("/car/add", creatRentalCar)
-route.get("/car/:id")
-route.put("/car/:id")
-route.delete("/car/:id")
+route.get("/cars",  getAllCarInfo);
+route.post("/car/add",  upload.single('img'), createNewCarEntry);
+route.get("/car/:id", getACarInfo);
+route.put("/car/:id", updateCarInfo);
+route.delete("/car/:id", deleteCarInfo);
 
 module.exports = route;
