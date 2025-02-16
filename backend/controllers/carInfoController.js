@@ -38,8 +38,9 @@ async function getAllCarInfo(req, res) {
 async function getACarInfo(req, res) {
   try {
     const { id } = req.params;
-
+    console.log("Car ID:", id); // Debugging
     const carInfo = await carModel.findById(id);
+  
     if (!id) {
       return res.status(400).json({ message: "Car Id does not found" });
     }
