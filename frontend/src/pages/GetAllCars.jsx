@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 const GetAllCars = () => {
   const [vehicles, setVehicles] = useState([]);
-  const [selectedCar, setSelectedCar] = useState(null)
+  // const [selectedCar, setSelectedCar] = useState(null)
   useEffect(() => {
     axios
       .get("http://localhost:5000/api/cars")
@@ -17,34 +17,40 @@ const GetAllCars = () => {
       });
   }, []);
 
-  const HandleGetAcar = (vehicle) =>
-  {
-    setSelectedCar(vehicle);
-  }
-
   return (
     <div>
       {vehicles.map((vehicle, index) => {
         return (
-            <ul key={index}>
+          <ul key={index}>
+            <div>
               <div>
-              <div>
-              <p>Brand: {vehicle.brand}</p>
-              <p>Mileage:{vehicle.mileage}</p>
+                <p>Brand: {vehicle.brand}</p>
+                <p>Mileage:{vehicle.mileage}</p>
               </div>
               <div>
-              <p>Distance Covered: {vehicle.distanceCovered}</p>
-              <p>Type of Fuel :{vehicle.mileage}</p>
+                <p>Distance Covered: {vehicle.distanceCovered}</p>
+                <p>Type of Fuel :{vehicle.mileage}</p>
+                {vehicle.img ? (
+                  <img
+                    src={vehicle.img}
+                    alt={vehicle.brand}
+                    width="150"
+                    height="auto"
+                  />
+                ) : (
+                  <p>No Image Available</p>
+                )}
               </div>
               <div>
                 <button>Contact Owner</button>
-                <button><Link to={`/api/car/get/${vehicle._id}`}>More Details</Link></button>
+                <button>
+                  <Link to={`/api/car/get/${vehicle._id}`}>More Details</Link>
+                </button>
               </div>
-              </div>
-            </ul>
+            </div>
+          </ul>
         );
       })}
-      {/* {selectedCar && selectedCar._id && <GetCar id={selectedCar._id} />} */}
     </div>
   );
 };

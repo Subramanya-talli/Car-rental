@@ -5,6 +5,7 @@ const app = express();
 const PORT = process.env._PORT || 4000;
 const CarRoutes = require("./routes/carRoutes")
 const cors = require('cors');
+const path = require('path')
 
 
 const data_base_url = process.env._mongoDBUrl;
@@ -19,6 +20,7 @@ app.use(cors({
     allowedHeaders: ["Content-Type", "Authorization"]
 }))
 app.options("*", cors());
+app.use('/uploads', express.static(path.join(__dirname, "uploads")));
 
 app.use('/api', CarRoutes);
 app.use('/', (req,res)=>{
@@ -31,7 +33,7 @@ let corsOptions = {
 
 app.use(cors(corsOptions));
 
-app.use("/uploads", express.static("uploads"));
+
 
 app.listen((PORT), ()=>{
     console.log(`App is running in ${PORT}`)

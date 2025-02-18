@@ -14,8 +14,8 @@ function App() {
         <Route path="/car/edit/:id" element={<Edit />}></Route>
         <Route path="/car/delete/:id" element={<Delete />}></Route>
         <Route path="/car/update/:id" element={<Update />}></Route>
-        <Route path="/car/add" element={<Create />}></Route>
-        <Route path="/car/get/:id" element={<GetCar />}></Route>
+        <Route path="/api/car/add" element={<Create />}></Route>
+        <Route path="/api/car/get/:id" element={<GetCar />}></Route>
         <Route path="/api/cars" element={<GetAllCars />}></Route>
         
       </Routes>

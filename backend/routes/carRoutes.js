@@ -1,7 +1,7 @@
 const express = require("express");
 const { createNewCarEntry, getAllCarInfo, getACarInfo, updateCarInfo, deleteCarInfo } = require("../controllers/carInfoController");
 const route = express.Router();
-const upload = require('../middleware/upload')
+const upload = require("../middleware/upload")
 
 route.get("/cars",  getAllCarInfo);
 route.post("/car/add",  upload.single('img'), createNewCarEntry);

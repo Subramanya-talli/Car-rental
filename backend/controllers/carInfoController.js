@@ -15,10 +15,7 @@ async function createNewCarEntry(req, res) {
       distanceCovered,
       mileage,
       typeoffuel,
-      img: {
-        data: req.file.buffer, 
-        contentType: req.file.mimetype,
-      },
+      img: req.file.path
     });
     res.status(201).json(car);
   } catch (error) {
@@ -38,12 +35,16 @@ async function getAllCarInfo(req, res) {
 async function getACarInfo(req, res) {
   try {
     const { id } = req.params;
-    console.log("Car ID:", id); // Debugging
     const carInfo = await carModel.findById(id);
-  
-    if (!id) {
-      return res.status(400).json({ message: "Car Id does not found" });
+
+    if (!carInfo) {
+      return res.status(400).json({ message: "Car not found" });
     }
+
+    if (carInfo.img) {
+      carInfo.img = `http://localhost:5000/uploads/${carInfo.img}`; // Example for local storage
+    }
+
     res.status(200).json(carInfo);
   } catch (error) {
     res.status(500).json({ message: error.message });
