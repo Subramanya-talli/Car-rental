@@ -11,43 +11,43 @@ const GetCar = () => {
     axios
       .get(`http://localhost:5000/api/car/get/${id}`)
       .then((response) => {
-        
+        let carData = response.data;
 
-        if (response.data.img && response.data.img.data) {
-          const base64String = `data:${
-            response.data.img.contentType
-          };base64,${btoa(
-            String.fromCharCode(...new Uint8Array(response.data.img.data.data))
-          )}`;
-
-          response.data.img = base64String 
+        // Ensure correct image path format
+        if (carData.img) {
+          carData.img = carData.img.replace("//uploads/", "/uploads/");
         }
-        console.log("Car Data:", response.data);
 
-        setCar(response.data);
+        console.log("Car Data:", carData);
+        setCar(carData);
         setLoading(false);
       })
       .catch((error) => {
-        console.log(error);
+        console.error("Error fetching car:", error);
+        setLoading(false);
       });
   }, [id]);
 
-  
-
   if (loading) return <p>Loading car details...</p>;
+  if (!car) return <p>Car not found</p>;
 
   return (
     <div>
       <h1>Car Info</h1>
-      <p>Brand: {car.brand}</p>
-      <p>Distance Covered: {car.distanceCovered} km</p>
-      <p>Mileage: {car.mileage} km/l</p>
+      <p><strong>Brand:</strong> {car.brand}</p>
+      <p><strong>Distance Covered:</strong> {car.distanceCovered} km</p>
+      <p><strong>Mileage:</strong> {car.mileage} km/l</p>
       {car.img ? (
         <div>
-          <img src={car.img} alt={car.brand} width="200" />
+          <img
+            src={`http://localhost:5000${car.img.startsWith("/") ? car.img : "/" + car.img}`}
+            alt={car.brand}
+            width="200"
+            height="auto"
+          />
         </div>
       ) : (
-        <p>No Image Available</p>
+        <p><strong>No Image Available</strong></p>
       )}
     </div>
   );

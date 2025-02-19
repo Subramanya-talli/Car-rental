@@ -3,6 +3,7 @@ const carModel = require("../models/CarModel");
 async function createNewCarEntry(req, res) {
   try {
     const { brand, distanceCovered, mileage, typeoffuel } = req.body;
+
     if (!brand || !distanceCovered || !mileage || !typeoffuel) {
       return res.status(400).json({ message: "All fields are required" });
     }
@@ -10,22 +11,33 @@ async function createNewCarEntry(req, res) {
     if (!req.file) {
       return res.status(400).json({ message: "Image is required" });
     }
-    const car = await carModel.create({
+
+    console.log("Uploaded File:", req.file); 
+
+    const newCar = new carModel({
       brand,
-      distanceCovered,
       mileage,
-      typeoffuel,
-      img: req.file.path
+      distanceCovered,
+      fuelType: typeoffuel,
+      img: `/uploads/${req.file.filename}`, // ✅ Ensure the image path is saved
     });
-    res.status(201).json(car);
+
+    const savedCar = await newCar.save();
+    res.status(201).json(savedCar);
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    console.error("Error creating car entry:", error);
+    res.status(500).json({ message: error.message });
   }
 }
 
 async function getAllCarInfo(req, res) {
   try {
-    const allCarInfo = await carModel.find();
+    const cars = await carModel.find();
+    cars.forEach((car) => {
+      if (car.img.startsWith("C:")) {
+        car.img = car.img.replace("C:/Users/subra/CarRental/backend", "");
+      }
+    });
     res.status(201).json(allCarInfo);
   } catch (error) {
     res.status(404).json({ message: error.message });
@@ -42,7 +54,7 @@ async function getACarInfo(req, res) {
     }
 
     if (carInfo.img) {
-      carInfo.img = `http://localhost:5000/uploads/${carInfo.img}`; // Example for local storage
+      carInfo.img = `http://localhost:5000/uploads/${carInfo.img}`;
     }
 
     res.status(200).json(carInfo);

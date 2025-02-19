@@ -15,17 +15,16 @@ const connectToDataBase = require("../backend/connection")
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({
-    origin: 'http://localhost:5173',
+    origin: 'http://localhost:5173', // Frontend URL
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"]
-}))
-app.options("*", cors());
-app.use('/uploads', express.static(path.join(__dirname, "uploads")));
+}));
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.use('/api', CarRoutes);
-app.use('/', (req,res)=>{
-    res.send("Hello From the Nodejs");
-})
+// app.use('/', (req,res)=>{
+//     res.send("Hello From the Nodejs");
+// })
 
 let corsOptions = {
     origin: ['http://localhost:5173']
