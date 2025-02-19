@@ -2,9 +2,9 @@ const carModel = require("../models/CarModel");
 
 async function createNewCarEntry(req, res) {
   try {
-    const { brand, distanceCovered, mileage, typeoffuel } = req.body;
+    const { brand, distanceCovered, mileage, fuelType } = req.body;
 
-    if (!brand || !distanceCovered || !mileage || !typeoffuel) {
+    if (!brand || !distanceCovered || !mileage || !fuelType) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
@@ -18,8 +18,8 @@ async function createNewCarEntry(req, res) {
       brand,
       mileage,
       distanceCovered,
-      fuelType: typeoffuel,
-      img: `/uploads/${req.file.filename}`, // ✅ Ensure the image path is saved
+      fuelType: fuelType,
+      img: `/uploads/${req.file.filename}`, 
     });
 
     const savedCar = await newCar.save();
@@ -38,7 +38,7 @@ async function getAllCarInfo(req, res) {
         car.img = car.img.replace("C:/Users/subra/CarRental/backend", "");
       }
     });
-    res.status(201).json(allCarInfo);
+    res.status(201).json(cars);
   } catch (error) {
     res.status(404).json({ message: error.message });
   }
@@ -53,9 +53,9 @@ async function getACarInfo(req, res) {
       return res.status(400).json({ message: "Car not found" });
     }
 
-    if (carInfo.img) {
-      carInfo.img = `http://localhost:5000/uploads/${carInfo.img}`;
-    }
+    // if (carInfo.img) {
+    //   carInfo.img = `http://localhost:5000/uploads/${carInfo.img}`;
+    // }
 
     res.status(200).json(carInfo);
   } catch (error) {

@@ -4,18 +4,23 @@ import { Link } from "react-router-dom";
 
 const GetAllCars = () => {
   const [vehicles, setVehicles] = useState([]);
+  const [Loading,setLoading] = useState(true);
 
   useEffect(() => {
     axios
       .get("http://localhost:5000/api/cars")
       .then((response) => {
-        console.log("API Response:", response.data);
+        // console.log("API Response:", response.data);
         setVehicles(response.data);
+        setLoading(false)
       })
       .catch((error) => {
         console.error("Error fetching vehicles:", error);
+        setLoading(false)
       });
   }, []);
+
+  if(Loading) return <p>Laoding the Car Details......</p>;
 
   return (
     <div>
@@ -43,7 +48,6 @@ const GetAllCars = () => {
             <p>
               <strong>Type of Fuel:</strong> {vehicle.fuelType}
             </p>{" "}
-            {console.log("Vehicle Image:", vehicle.img)}
             {vehicle.img ? (
               <img
                 src={`http://localhost:5000${

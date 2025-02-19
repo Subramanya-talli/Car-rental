@@ -12,12 +12,6 @@ const GetCar = () => {
       .get(`http://localhost:5000/api/car/get/${id}`)
       .then((response) => {
         let carData = response.data;
-
-        // Ensure correct image path format
-        if (carData.img) {
-          carData.img = carData.img.replace("//uploads/", "/uploads/");
-        }
-
         console.log("Car Data:", carData);
         setCar(carData);
         setLoading(false);
