@@ -14,7 +14,7 @@ const Create = () => {
     
     try {
       if (!brand || !distance || !mileage || !fuelType || !img) {
-      alert("All fields are required!"); // ✅ Prevent empty submission
+      alert("All fields are required!"); 
       return;
     }
 

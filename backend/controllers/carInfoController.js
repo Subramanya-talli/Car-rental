@@ -12,14 +12,14 @@ async function createNewCarEntry(req, res) {
       return res.status(400).json({ message: "Image is required" });
     }
 
-    console.log("Uploaded File:", req.file); 
+    console.log("Uploaded File:", req.file);
 
     const newCar = new carModel({
       brand,
       mileage,
       distanceCovered,
       fuelType: fuelType,
-      img: `/uploads/${req.file.filename}`, 
+      img: `/uploads/${req.file.filename}`,
     });
 
     const savedCar = await newCar.save();
@@ -52,10 +52,6 @@ async function getACarInfo(req, res) {
     if (!carInfo) {
       return res.status(400).json({ message: "Car not found" });
     }
-
-    // if (carInfo.img) {
-    //   carInfo.img = `http://localhost:5000/uploads/${carInfo.img}`;
-    // }
 
     res.status(200).json(carInfo);
   } catch (error) {
