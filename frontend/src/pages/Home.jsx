@@ -1,23 +1,52 @@
-import React from 'react'
-
+import React, { useState } from "react";
+import axios from "axios";
 
 const Home = () => {
+  const [loggedIn, setLoggedIn] = useState(false);
+
+
+axios.get('/')
+
   return (
     <>
-    <main>
-      <nav>
-        <ul>
-          <li><a href="/">Home</a></li>
-          <li><a href="">Rent A Car</a></li>
-          <li><a href="">Become A Agent</a></li>
-          <li><a href="">Sign Up</a></li>
-          <li><a href="">Sign In</a></li>
-        </ul>
-      </nav>
-      
-    </main>
+      {loggedIn ? (
+        <main>
+          <nav>
+            <ul>
+              <li>
+                <a href="/">Home</a>
+              </li>
+              <li>
+                <a href="">Rent A Car</a>
+              </li>
+              <li>
+                <a href="/user/signup">Sign Up</a>
+              </li>
+              <li>
+                <a href="/user/signin">Sign In</a>
+              </li>
+            </ul>
+          </nav>
+        </main>
+      ) : (
+        <main>
+          <nav>
+            <ul>
+              <li>
+                <a href="/">Home</a>
+              </li>
+              <li>
+                <a href="">Rent A Car</a>
+              </li>
+              <li>
+                <a href="">Log Out</a>
+              </li>
+            </ul>
+          </nav>
+        </main>
+      )}
     </>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

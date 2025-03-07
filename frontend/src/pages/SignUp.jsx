@@ -28,8 +28,8 @@ const SignIn = () => {
       };
 
       const res = await axios.post("http://localhost:5000/user/signup", newUser)
-        console.log(res.data)
-        navigate('/');
+        // console.log(res.data)
+        navigate('/user/signin');
 
 
     } catch (error) {
@@ -112,7 +112,7 @@ const SignIn = () => {
         <label htmlFor="No" >No</label>
       </div>
       <div>
-        <button onClick={handleNewUser}>Sign In</button>
+        <button onClick={handleNewUser}>Sign Up</button>
       </div>
     </>
   );

@@ -1,8 +1,9 @@
 const User = require("../models/User");
 
+
 const getUser = async function (req, res) {
   try {
-    const { email, password } = req.body;
+    const { id} = req.body;
 
     const user = await User.findById(id);
     if (!user) {
@@ -29,7 +30,21 @@ const createNewUser = async function (req, res) {
   }
 };
 
+
+const verifyUser = async function(req, res)
+{
+  const { email, password} = req.body;
+  try {
+    const token = await User.matchPasswordAndGenerateToken(email, password);
+    res.cookie("token", token)
+    return res.json({ redirect: "/"});
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+}
+
 module.exports = {
   getUser,
   createNewUser,
+  verifyUser
 };

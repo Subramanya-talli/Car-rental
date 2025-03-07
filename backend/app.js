@@ -7,6 +7,7 @@ const CarRoutes = require("./routes/carRoutes")
 const cors = require('cors');
 const path = require('path')
 const userRoute = require('./routes/userRoutes')
+const cookieParser = require("cookie-parser");
 
 
 const data_base_url = process.env._mongoDBUrl;
@@ -18,18 +19,14 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors({
     origin: 'http://localhost:5173',
     methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"]
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true
 }));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use(cookieParser());
 
 app.use('/api', CarRoutes);
 app.use('/user', userRoute);
-
-// let corsOptions = {
-//     origin: ['http://localhost:5173']
-// }
-
-// app.use(cors(corsOptions));
 
 
 
