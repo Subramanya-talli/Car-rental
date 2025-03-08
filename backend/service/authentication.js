@@ -1,15 +1,17 @@
 const jwt = require("jsonwebtoken")
 const secretKey = process.env.secret_key
 
+
 const createToken = function(user)
 {
     const payload = {
         id : user._id,
         email : user.email,
-        role: user.role
+        role: user.role,
     };
 
-    const token = jwt.sign(payload,secretKey);
+    const token = jwt.sign(payload, secretKey);
+    console.log("Generated JWT:", token);
     return token;
 }
 

@@ -1,52 +1,29 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React, { useEffect, useState } from "react";
+import Cookies from "js-cookie";
+import { jwtDecode } from "jwt-decode";
 
 const Home = () => {
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [user, setUser] = useState(null);
 
-
-axios.get('/')
-
+  useEffect(() => {
+    const token = Cookies.get("token");
+    console.log("Token: ", token)
+    if (token) {
+      try {
+        const deCodeUser = jwtDecode(token);
+        setUser(deCodeUser);
+      } catch (error) {
+        console.log("Invalid Token", error);
+      }
+    }
+  }, []);
   return (
     <>
-      {loggedIn ? (
-        <main>
-          <nav>
-            <ul>
-              <li>
-                <a href="/">Home</a>
-              </li>
-              <li>
-                <a href="">Rent A Car</a>
-              </li>
-              <li>
-                <a href="/user/signup">Sign Up</a>
-              </li>
-              <li>
-                <a href="/user/signin">Sign In</a>
-              </li>
-            </ul>
-          </nav>
-        </main>
-      ) : (
-        <main>
-          <nav>
-            <ul>
-              <li>
-                <a href="/">Home</a>
-              </li>
-              <li>
-                <a href="">Rent A Car</a>
-              </li>
-              <li>
-                <a href="">Log Out</a>
-              </li>
-            </ul>
-          </nav>
-        </main>
-      )}
+      <nav>
+        {console.log(user)}
+        {user ? <p>Welcome, {user.name}</p> : <a href="/user/signin">Sign In</a>}
+      </nav>
     </>
   );
 };
-
 export default Home;

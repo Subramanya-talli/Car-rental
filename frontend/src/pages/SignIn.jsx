@@ -8,8 +8,14 @@ const SignIn = () => {
   const handleSignIn = async function () {
     try {
       if (!email || !password) {
-        alert("All fields are required!");
-        return;
+        if(!email)
+        {
+          throw new Error("Email is Required");
+        }
+        else
+        {
+          throw new Error("Pasword is Required");
+        }
       }
 
       const userCredentials = {
@@ -19,14 +25,13 @@ const SignIn = () => {
 
       const response = await axios.post(
         "http://localhost:5000/user/signin",
-        userCredentials
+        userCredentials,
+        { withCredentials: true }
       );
       console.log(response.data);
       if (response.data.redirect) {
         window.location.href = response.data.redirect;
-      } else {
-        alert(response.data.message);
-      }
+      } 
     } catch (error) {
       console.error(
         "Error:",

@@ -33,10 +33,14 @@ const createNewUser = async function (req, res) {
 
 const verifyUser = async function(req, res)
 {
-  const { email, password} = req.body;
+  const { email, password } = req.body;
   try {
     const token = await User.matchPasswordAndGenerateToken(email, password);
-    res.cookie("token", token)
+    res.cookie("token", token, {
+      httpOnly: true, // Prevents JavaScript access (good for security)
+      secure: false, // Set to true only if using HTTPS
+      sameSite: "lax", // Helps with CORS
+    });
     return res.json({ redirect: "/"});
   } catch (error) {
     return res.status(500).json({ message: error.message });
