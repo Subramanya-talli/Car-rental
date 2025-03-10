@@ -8,9 +8,9 @@ const SignIn = () => {
   const [lastName, setLastName] = useState("");
   const [mobileNumber, setMobileNumber] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("Renter");
-  
-  const navigate = useNavigate()
+  const [role, setRole] = useState("");
+
+  const navigate = useNavigate();
 
   const handleNewUser = async () => {
     try {
@@ -18,6 +18,7 @@ const SignIn = () => {
         alert("All fields are required!");
         return;
       }
+      console.log("Selected Role:", role);
       const newUser = {
         name,
         lastName,
@@ -26,14 +27,19 @@ const SignIn = () => {
         role,
         password,
       };
+      console.log("Sending Data:", newUser);
 
-      const res = await axios.post("http://localhost:5000/user/signup", newUser)
-        // console.log(res.data)
-        navigate('/user/signin');
-
-
+      const res = await axios.post(
+        "http://localhost:5000/user/signup",
+        newUser
+      );
+      console.log(res.data);
+      navigate("/user/signin");
     } catch (error) {
-      console.error("Error:", error.response ? error.response.data : error.message);
+      console.error(
+        "Error:",
+        error.response ? error.response.data : error.message
+      );
     }
   };
 
@@ -100,16 +106,26 @@ const SignIn = () => {
         />
       </div>
       <div>
-        <label htmlFor="role">Are you here for renting a Car ?</label>
+        <p>
+          <strong>What is your purpose on this platform?</strong>
+        </p>
+        <input
+          type="radio"
+          name="role"
+          id="Renter"
+          value="Renter"
+          onChange={(e) => setRole(e.target.value)}
+        />
+        <label htmlFor="Renter">I want to rent a car</label>
         <br />
-        <input type="radio" name="role" id="yes" value={"Renter"} onChange={(e)=>{
-          setRole(e.target.value)
-        }} />
-        <label htmlFor="Yes">Yes</label>
-        <input type="radio" name="role" id="No" value={"Owner"} onChange={(e)=>{
-          setRole(e.target.value)
-        }} />
-        <label htmlFor="No" >No</label>
+        <input
+          type="radio"
+          name="role"
+          id="Owner"
+          value="Owner"
+          onChange={(e) => setRole(e.target.value)}
+        />
+        <label htmlFor="Owner">I have a car to rent out</label>
       </div>
       <div>
         <button onClick={handleNewUser}>Sign Up</button>

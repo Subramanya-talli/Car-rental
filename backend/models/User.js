@@ -28,10 +28,11 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    role: {
-      type: String,
+    role: { 
+      type: String, 
       enum: ["Renter", "Owner"],
     },
+      
   },
   {
     timestamps: true,
@@ -52,31 +53,29 @@ userSchema.pre("save", function (next) {
   next();
 });
 
+userSchema.static(
+  "matchPasswordAndGenerateToken",
+  async function (email, password) {
+    const user = await this.findOne({ email });
+    if (!user) {
+      throw new Error("User is not Found");
+    }
+    const salt = user.salt;
+    const hashedPassword = user.password;
 
-userSchema.static("matchPasswordAndGenerateToken", async function(email, password)
-{
-  const user = await this.findOne({email});
-  if(!user)
-  {
-    throw new Error("User is not Found");
+    const userProvidedHash = createHmac("sha256", salt)
+      .update(password)
+      .digest("hex");
+
+    if (hashedPassword !== userProvidedHash) {
+      throw new Error("Email or Password is incorrect");
+    }
+
+    const token = createToken(user);
+    console.log("Token Is :", token);
+    return token;
   }
-  const salt = user.salt;
-  const hashedPassword = user.password;
-
-  const userProvidedHash =  createHmac("sha256", salt)
-  .update(password)
-  .digest("hex");
-
-  if( hashedPassword !== userProvidedHash)
-  {
-    throw new Error("Email or Password is incorrect");
-  }
-
-  const token = createToken(user);
-  console.log(token)
-  return token;
-
-})
+);
 
 const User = mongoose.model("user", userSchema);
 

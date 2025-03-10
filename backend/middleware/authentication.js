@@ -10,8 +10,9 @@ function checkForAuthenticationCookie(cookie) {
     try {
       const userPayLoad = validateToken(token_Value);
       req.user = userPayLoad;
-      console.log(req.user);
-    } catch (error) {}
+    } catch (error) {
+      console.error("JWT Validation Error:", error.message);
+    }
     next();
   };
 }

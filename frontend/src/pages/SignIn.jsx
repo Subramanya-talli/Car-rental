@@ -17,6 +17,7 @@ const SignIn = () => {
           throw new Error("Pasword is Required");
         }
       }
+      console.log(email, password)
 
       const userCredentials = {
         email,
