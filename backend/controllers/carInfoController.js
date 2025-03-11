@@ -1,8 +1,9 @@
 const carModel = require("../models/CarModel");
+const User = require("../models/User")
 
 async function createNewCarEntry(req, res) {
   try {
-    const { brand, distanceCovered, mileage, fuelType } = req.body;
+    const { brand, distanceCovered, mileage, fuelType, createdBy } = req.body;
 
     if (!brand || !distanceCovered || !mileage || !fuelType) {
       return res.status(400).json({ message: "All fields are required" });
@@ -20,6 +21,7 @@ async function createNewCarEntry(req, res) {
       distanceCovered,
       fuelType: fuelType,
       img: `/uploads/${req.file.filename}`,
+      createdBy: req.user._id
     });
 
     const savedCar = await newCar.save();
@@ -46,13 +48,15 @@ async function getAllCarInfo(req, res) {
 
 async function getACarInfo(req, res) {
   try {
-    const { id } = req.params;
+    const { id} = req.params;
+    const {createdBy}= req.body
+    console.log(createdBy)
     const carInfo = await carModel.findById(id);
+    // const user = await User.findById(createdBy);
 
     if (!carInfo) {
       return res.status(400).json({ message: "Car not found" });
     }
-
     res.status(200).json(carInfo);
   } catch (error) {
     res.status(500).json({ message: error.message });

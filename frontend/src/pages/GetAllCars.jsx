@@ -1,25 +1,9 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React from "react";
 import { Link } from "react-router-dom";
 
-const GetAllCars = () => {
-  const [vehicles, setVehicles] = useState([]);
-  const [Loading, setLoading] = useState(true);
+const GetAllCars = ({vehicles, Loading}) => {
 
-  useEffect(() => {
-    axios
-      .get("http://localhost:5000/api/cars")
-      .then((response) => {
-        setVehicles(response.data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching vehicles:", error);
-        setLoading(false);
-      });
-  }, []);
-
-  if (Loading) return <p>Laoding the Car Details......</p>;
+  if (Loading) return <p>Loading the Car Details......</p>;
 
   return (
     <div>

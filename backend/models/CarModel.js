@@ -22,6 +22,11 @@ const carSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    createdBy:
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: "user"
+    }
   },
   {
     timestamps: true,
