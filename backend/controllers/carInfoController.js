@@ -3,7 +3,12 @@ const User = require("../models/User")
 
 async function createNewCarEntry(req, res) {
   try {
-    const { brand, distanceCovered, mileage, fuelType, createdBy } = req.body;
+    console.log("🚀 New car creation request received!");
+
+    console.log("🚀 Cookies in request:", req.cookies); // Debugging cookies
+    console.log("🚀 User from middleware:", req.user);  // Debugging user payload
+    const { brand, distanceCovered, mileage, fuelType } = req.body;
+
 
     if (!brand || !distanceCovered || !mileage || !fuelType) {
       return res.status(400).json({ message: "All fields are required" });
@@ -21,7 +26,7 @@ async function createNewCarEntry(req, res) {
       distanceCovered,
       fuelType: fuelType,
       img: `/uploads/${req.file.filename}`,
-      createdBy: req.user._id
+      // createdBy
     });
 
     const savedCar = await newCar.save();
@@ -52,7 +57,7 @@ async function getACarInfo(req, res) {
     const {createdBy}= req.body
     console.log(createdBy)
     const carInfo = await carModel.findById(id);
-    // const user = await User.findById(createdBy);
+
 
     if (!carInfo) {
       return res.status(400).json({ message: "Car not found" });

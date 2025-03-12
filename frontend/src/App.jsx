@@ -22,7 +22,6 @@ function App() {
         <Route path="/api/cars" element={<GetAllCars />}></Route>
         <Route path="/user/signup" element={<SignUp />}></Route>
         <Route path="/user/signin" element={<SignIn />}></Route>
-        
       </Routes>
     </>
   );

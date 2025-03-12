@@ -29,6 +29,7 @@ const Create = () => {
         headers: {
           "Content-Type": "multipart/form-data",
         },
+        withCredentials: true,
       });
 
       console.log("Success:", response.data);

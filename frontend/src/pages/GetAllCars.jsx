@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const GetAllCars = ({vehicles, Loading}) => {
+const GetAllCars = ({vehicles, Loading, user}) => {
 
   if (Loading) return <p>Loading the Car Details......</p>;
 
@@ -44,10 +44,12 @@ const GetAllCars = ({vehicles, Loading}) => {
               <p>No Image Available</p>
             )}
             <div>
-              <button>Contact Owner</button>
+              
+              { user.role === "Owner"  ? <button>Update Vehicle</button> : <button>Contact For Rent</button>}
               <button>
                 <Link to={`/api/car/get/${vehicle._id}`}>More Details</Link>
               </button>
+              
             </div>
           </div>
         ))

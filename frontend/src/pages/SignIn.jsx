@@ -17,8 +17,6 @@ const SignIn = () => {
           throw new Error("Pasword is Required");
         }
       }
-      console.log(email, password)
-
       const userCredentials = {
         email,
         password,
@@ -72,6 +70,7 @@ const SignIn = () => {
         <div>
           <button onClick={handleSignIn}>Login</button>
         </div>
+        {/* <span>Dont have Account ? Please Do <a href="signup">Sign Up</a></span> */}
       </div>
     </>
   );

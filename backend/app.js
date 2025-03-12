@@ -7,7 +7,7 @@ const CarRoutes = require("./routes/carRoutes")
 const cors = require('cors');
 const path = require('path')
 const userRoute = require('./routes/userRoutes')
-const cookieParser = require("cookie-parser");
+const cookieParser = require("cookie-parser")
 
 
 const data_base_url = process.env._mongoDBUrl;
@@ -17,6 +17,7 @@ const { checkForAuthenticationCookie } = require("./middleware/authentication");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 app.use(cors({
     origin: 'http://localhost:5173',
     methods: ["GET", "POST", "PUT", "DELETE"],
@@ -24,12 +25,14 @@ app.use(cors({
     credentials: true
 }));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
-app.use(cookieParser());
 
 
+
+
+app.use(checkForAuthenticationCookie('token'))
 app.use('/api', CarRoutes);
 app.use('/user', userRoute);
-app.use(checkForAuthenticationCookie('token'))
+
 
 
 app.listen((PORT), ()=>{

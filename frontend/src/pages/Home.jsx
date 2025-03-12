@@ -4,18 +4,17 @@ import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 import SortingVehicles from "./Sorting";
 import GetAllVehicles from "../pages/GetAllCars";
-
+import GetUserVehicles from "./GetUserVehicles";
+import CreateVehicle  from "../pages/Create"
 
 const Home = () => {
   const [user, setUser] = useState(null);
- const [vehicles, setVehicles] = useState([]);
- const [sortBy, setSortBy] = useState("distanceCovered");
- const [Loading, setLoading] = useState(true);
-
+  const [vehicles, setVehicles] = useState([]);
+  const [sortBy, setSortBy] = useState("distanceCovered");
+  const [Loading, setLoading] = useState(true);
 
   useEffect(() => {
     const token = Cookies.get("token");
-    console.log("Token: ", token);
     if (token) {
       try {
         const deCodeUser = jwtDecode(token);
@@ -45,36 +44,94 @@ const Home = () => {
       if (sortBy === "mileage") {
         return b.mileage - a.mileage;
       }
-      if (a[sortBy] > b[sortBy]) return sortOrder === "asc" ? 1 : -1;
-      if (a[sortBy] < b[sortBy]) return sortOrder === "asc" ? -1 : 1;
-      return 0;
+      return a[sortBy] > b[sortBy] ? 1 : -1;
     });
+  };
+
+  const handleLogout = () => {
+    axios
+      .get("http://localhost:5000/user/logout")
+      .then((res) => {
+        Cookies.remove("token");
+        location.reload(true);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleAddVehicle = () => {
+    return <CreateVehicle/>
   };
 
   useEffect(() => {
     setVehicles((prevVehicles) => sortData(prevVehicles, sortBy));
-  }, [sortBy, sortOrder]);
+  }, [sortBy]);
 
   return (
     <>
-    {user ? (
+      {user ? (
         <div>
           <main>
-            <nav>
-              <ul>
-                <li><a href="/">Home</a></li>
-                {user.role === "Owner" ? <li>Your Vehicles</li> : <li>Rent a Car</li>}
-                <li><a href="/">Logout</a></li>
-                <li><a href="/">Home</a></li>
-              </ul>
-            </nav>
-           <SortingVehicles setSortBy={setSortBy}/>
-           <GetAllVehicles Loading={Loading} vehicles={vehicles}/>
+            {user.role === "Owner" ? (
+              <div>
+                <nav>
+                  <ul>
+                    <li>
+                      <a href="/">Home</a>
+                    </li>
+                    {user.role === "Owner" ? (
+                      <li>Your Vehicles</li>
+                    ) : (
+                      <li>
+                        <a href="/">Rent a Car</a>
+                      </li>
+                    )}
+                    {user.role === "Owner" ? (
+                      <li>
+                        <button onClick={handleAddVehicle}>Add a Vehicle</button>
+                      </li>
+                    ) : (
+                      <li></li>
+                    )}
+                    <li>
+                      <button onClick={handleLogout}>Logout</button>
+                    </li>
+                  </ul>
+                </nav>
+                {/* <SortingVehicles setSortBy={setSortBy} /> */}
+                <GetUserVehicles vehicles={vehicles}/>
+              </div>
+            ) : (
+              <div>
+                <nav>
+                  <ul>
+                    <li>
+                      <a href="/">Home</a>
+                    </li>
+                    <li>
+                      <a href="/">Rent a Car</a>
+                    </li>
+                    <li>
+                      <button onClick={handleLogout}>Logout</button>
+                    </li>
+                  </ul>
+                </nav>
+                <SortingVehicles setSortBy={setSortBy} />
+                <GetAllVehicles
+                  user={user}
+                  Loading={Loading}
+                  vehicles={vehicles}
+                />
+              </div>
+            )}
           </main>
         </div>
       ) : (
         <div>
-          <p>Please do <a href="/user/signin">Sign In</a></p>
+          <p>
+            Please do <a href="/user/signin">Sign In</a>
+          </p>
         </div>
       )}
     </>
