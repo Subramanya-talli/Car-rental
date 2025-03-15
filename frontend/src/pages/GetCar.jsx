@@ -1,18 +1,23 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 
 const GetCar = () => {
   const [car, setCar] = useState(null);
   const [loading, setLoading] = useState(true);
   const { id } = useParams();
+  const location = useLocation();
+  const user = location.state?.owner
+  console.log(user)
+  const { name} = user;
+  
 
+  
   useEffect(() => {
     axios
       .get(`http://localhost:5000/api/car/get/${id}`)
       .then((response) => {
         let carData = response.data;
-        console.log("Car Data:", carData);
         setCar(carData);
         setLoading(false);
       })
@@ -22,8 +27,11 @@ const GetCar = () => {
       });
   }, [id]);
 
+
+
   if (loading) return <p>Loading car details...</p>;
   if (!car) return <p>Car not found</p>;
+
 
   return (
     <div>
@@ -43,6 +51,13 @@ const GetCar = () => {
       ) : (
         <p><strong>No Image Available</strong></p>
       )}
+      <div>
+        <h3>Car Owner Details </h3>
+        <div>
+          <p>Car Owner Name :  <strong>{name}</strong></p>
+          <p>Car Owner Contact Number :  {}</p>
+        </div>
+      </div>
     </div>
   );
 };

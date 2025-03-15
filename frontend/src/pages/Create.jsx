@@ -11,7 +11,6 @@ const Create = () => {
   const navigate = useNavigate();
 
   const handleNewCarEntry = async () => {
-    
     try {
       if (!brand || !distance || !mileage || !fuelType || !img) {
       alert("All fields are required!"); 
@@ -24,6 +23,7 @@ const Create = () => {
     formData.append("mileage", mileage);
     formData.append("fuelType", fuelType);
     formData.append("img", img);
+    
 
       const response = await axios.post("http://localhost:5000/api/car/add", formData, {
         headers: {

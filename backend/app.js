@@ -17,19 +17,19 @@ const { checkForAuthenticationCookie } = require("./middleware/authentication");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
 app.use(cookieParser());
+
 app.use(cors({
     origin: 'http://localhost:5173',
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true
 }));
+app.use(checkForAuthenticationCookie('token'))
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 
-
-
-app.use(checkForAuthenticationCookie('token'))
 app.use('/api', CarRoutes);
 app.use('/user', userRoute);
 

@@ -3,10 +3,7 @@ const User = require("../models/User")
 
 async function createNewCarEntry(req, res) {
   try {
-    console.log("🚀 New car creation request received!");
-
-    console.log("🚀 Cookies in request:", req.cookies); // Debugging cookies
-    console.log("🚀 User from middleware:", req.user);  // Debugging user payload
+    const createdBy = req.user.id;
     const { brand, distanceCovered, mileage, fuelType } = req.body;
 
 
@@ -26,7 +23,7 @@ async function createNewCarEntry(req, res) {
       distanceCovered,
       fuelType: fuelType,
       img: `/uploads/${req.file.filename}`,
-      // createdBy
+      createdBy: createdBy
     });
 
     const savedCar = await newCar.save();
@@ -54,10 +51,7 @@ async function getAllCarInfo(req, res) {
 async function getACarInfo(req, res) {
   try {
     const { id} = req.params;
-    const {createdBy}= req.body
-    console.log(createdBy)
     const carInfo = await carModel.findById(id);
-
 
     if (!carInfo) {
       return res.status(400).json({ message: "Car not found" });
@@ -74,10 +68,25 @@ async function updateCarInfo(req, res) {
     if (!id) {
       return res.status(400).json({ message: "Car Id does not found" });
     }
-    const carInfo = await carModel.findByIdAndUpdate(id, req.body, {
-      new: true,
-    });
-    res.status(200).json(carInfo);
+    
+    const existingCar = await carModel.findById(id);
+    if (!existingCar) return res.status(404).json({ message: "Car not found" });
+
+    const updateData = {
+      brand: req.body.brand,
+      distanceCovered: req.body.distanceCovered,
+      mileage: req.body.mileage,
+      fuelType: req.body.fuelType,
+    };
+
+
+    if (req.file) {
+      updateData.img = `/uploads/${req.file.filename}`;
+    } else {
+      updateData.img = existingCar.img; // Keep the existing image
+    }
+    const updatedCar = await carModel.findByIdAndUpdate(id, updateData, { new: true });
+    res.status(200).json(updatedCar);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

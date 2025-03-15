@@ -1,13 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const GetAllCars = ({vehicles, Loading, user}) => {
-
+const GetAllCars = ({ vehicles, Loading, user }) => {
   if (Loading) return <p>Loading the Car Details......</p>;
 
   return (
     <div>
-      {vehicles.length === 0 ? (
+      {vehicles.length == 0 ? (
         <p>No vehicles found.</p>
       ) : (
         vehicles.map((vehicle) => (
@@ -23,7 +22,7 @@ const GetAllCars = ({vehicles, Loading, user}) => {
               <strong>Brand:</strong> {vehicle.brand}
             </p>
             <p>
-              <strong>Mileage:</strong> {vehicle.mileage} km
+              <strong>Mileage:</strong> {vehicle.mileage} km/l
             </p>
             <p>
               <strong>Distance Covered:</strong> {vehicle.distanceCovered} km
@@ -44,12 +43,15 @@ const GetAllCars = ({vehicles, Loading, user}) => {
               <p>No Image Available</p>
             )}
             <div>
-              
-              { user.role === "Owner"  ? <button>Update Vehicle</button> : <button>Contact For Rent</button>}
+            <button>Contact For Rent</button>
               <button>
-                <Link to={`/api/car/get/${vehicle._id}`}>More Details</Link>
+                <Link
+                  to={`/api/car/get/${vehicle._id}`}
+                  state={{ owner: user }}
+                >
+                  View Details
+                </Link>
               </button>
-              
             </div>
           </div>
         ))

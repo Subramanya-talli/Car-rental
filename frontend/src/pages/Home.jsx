@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 import SortingVehicles from "./Sorting";
 import GetAllVehicles from "../pages/GetAllCars";
 import GetUserVehicles from "./GetUserVehicles";
-import CreateVehicle  from "../pages/Create"
+import OwnerDashBorad from "./ownerDashBoard";
+import UserDashBoard from "./UserDashBoard";
 
 const Home = () => {
   const [user, setUser] = useState(null);
   const [vehicles, setVehicles] = useState([]);
   const [sortBy, setSortBy] = useState("distanceCovered");
   const [Loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const token = Cookies.get("token");
@@ -24,6 +27,15 @@ const Home = () => {
       }
     }
   }, []);
+
+  const sortData = (data, sortBy) => {
+    return [...data].sort((a, b) => {
+      if (sortBy === "mileage") {
+        return b.mileage - a.mileage;
+      }
+      return a[sortBy] > b[sortBy] ? 1 : -1;
+    });
+  };
 
   useEffect(() => {
     axios
@@ -39,15 +51,6 @@ const Home = () => {
       });
   }, []);
 
-  const sortData = (data, sortBy) => {
-    return [...data].sort((a, b) => {
-      if (sortBy === "mileage") {
-        return b.mileage - a.mileage;
-      }
-      return a[sortBy] > b[sortBy] ? 1 : -1;
-    });
-  };
-
   const handleLogout = () => {
     axios
       .get("http://localhost:5000/user/logout")
@@ -60,8 +63,12 @@ const Home = () => {
       });
   };
 
+  const userVehicles = vehicles.filter(
+    (vehicle) => vehicle.createdBy === user?.id
+  );
+
   const handleAddVehicle = () => {
-    return <CreateVehicle/>
+    navigate("/api/car/add");
   };
 
   useEffect(() => {
@@ -71,67 +78,45 @@ const Home = () => {
   return (
     <>
       {user ? (
-        <div>
-          <main>
-            {user.role === "Owner" ? (
-              <div>
-                <nav>
-                  <ul>
-                    <li>
-                      <a href="/">Home</a>
-                    </li>
-                    {user.role === "Owner" ? (
-                      <li>Your Vehicles</li>
-                    ) : (
-                      <li>
-                        <a href="/">Rent a Car</a>
-                      </li>
-                    )}
-                    {user.role === "Owner" ? (
-                      <li>
-                        <button onClick={handleAddVehicle}>Add a Vehicle</button>
-                      </li>
-                    ) : (
-                      <li></li>
-                    )}
-                    <li>
-                      <button onClick={handleLogout}>Logout</button>
-                    </li>
-                  </ul>
-                </nav>
-                {/* <SortingVehicles setSortBy={setSortBy} /> */}
-                <GetUserVehicles vehicles={vehicles}/>
-              </div>
-            ) : (
-              <div>
-                <nav>
-                  <ul>
-                    <li>
-                      <a href="/">Home</a>
-                    </li>
-                    <li>
-                      <a href="/">Rent a Car</a>
-                    </li>
-                    <li>
-                      <button onClick={handleLogout}>Logout</button>
-                    </li>
-                  </ul>
-                </nav>
-                <SortingVehicles setSortBy={setSortBy} />
-                <GetAllVehicles
-                  user={user}
-                  Loading={Loading}
-                  vehicles={vehicles}
-                />
-              </div>
-            )}
-          </main>
-        </div>
+        <main>
+          {user.role === "Owner" ? (
+            <div>
+              <OwnerDashBorad
+                handleAddVehicle={handleAddVehicle}
+                handleLogout={handleLogout}
+              />
+              <SortingVehicles setSortBy={setSortBy} />
+              <GetUserVehicles vehicles={userVehicles} />
+            </div>
+          ) : (
+            <div>
+              <UserDashBoard handleLogout={handleLogout} />
+              <SortingVehicles setSortBy={setSortBy} />
+              <GetAllVehicles
+                user={user}
+                Loading={Loading}
+                vehicles={vehicles}
+              />
+            </div>
+          )}
+        </main>
       ) : (
         <div>
-          <p>
-            Please do <a href="/user/signin">Sign In</a>
-          </p>
+          <main>
+          <nav>
+            <ul>
+              <li>
+                <a href="/">Home</a>
+              </li>
+              <li>
+                <Link to="/user/signin">Sign In</Link>
+              </li>
+            </ul>
+          </nav>
+          <div>
+            You are not Signed In Please Do <Link to="/user/signin">Sign In</Link>
+          </div>
+          </main>
         </div>
       )}
     </>

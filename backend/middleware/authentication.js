@@ -1,30 +1,22 @@
-const {validateToken} = require("../service/authentication")
+const { validateToken } = require("../service/authentication");
 
-
-function checkForAuthenticationCookie(cookie) {
+function checkForAuthenticationCookie(cookiee) {
   return (req, res, next) => {
-
-    console.log("🔍 Middleware is running...");
-    console.log(req.cookies)
-    const token_Value = req.cookies[cookie];
-    console.log(token_Value)
+    const token_Value = req.cookies[cookiee];
     if (!token_Value) {
       return next();
     }
 
     try {
       const userPayLoad = validateToken(token_Value);
-      console.log("✅ Decoded Token Payload:", userPayLoad);
       req.user = userPayLoad;
+      console.log(req.user)
     } catch (error) {
-      console.error("❌ JWT Validation Error:", error.message);
+      console.error(error.message);
     }
-    
     next();
   };
 }
-
-
 
 module.exports = {
   checkForAuthenticationCookie,

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -65,12 +66,11 @@ const SignIn = () => {
               setPassword(e.target.value);
             }}
           />
-          <span></span>
         </div>
         <div>
           <button onClick={handleSignIn}>Login</button>
         </div>
-        {/* <span>Dont have Account ? Please Do <a href="signup">Sign Up</a></span> */}
+        <span>Dont have Account ? Please Do <Link to="/user/signup">Sign Up</Link></span>
       </div>
     </>
   );
