@@ -1,10 +1,7 @@
-import axios from "axios";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 const GetUserVehicles = ({ vehicles }) => {
-  const [updateVehicle, setUpdateVehicle] = useState("");
-
   return (
     <div>
       <h3>Your Own Added Vehicles</h3>
@@ -54,6 +51,7 @@ const GetUserVehicles = ({ vehicles }) => {
 
               <Link
                 to={`api/car/delete/${vehicle._id}`}
+                state={{delete_vehicle : vehicle }}
               >
                 <button>Delete Vehicle</button>
               </Link>

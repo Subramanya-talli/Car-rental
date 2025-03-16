@@ -8,12 +8,13 @@ import GetCar from "./pages/GetCar";
 import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
 
+
 function App() {
   return (
     <>
       <Routes>
         <Route path="/" element={<Home />}></Route>
-        <Route path="/car/delete/:id" element={<Delete />}></Route>
+        <Route path="/api/car/delete/:id" element={<Delete />}></Route>
         <Route path="/api/car/update/:id" element={<Update />}></Route>
         <Route path="/api/car/add" element={<Create />}></Route>
         <Route path="/api/car/get/:id" element={<GetCar />}></Route>

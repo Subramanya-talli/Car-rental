@@ -9,6 +9,7 @@ import GetUserVehicles from "./GetUserVehicles";
 import OwnerDashBorad from "./ownerDashBoard";
 import UserDashBoard from "./UserDashBoard";
 
+
 const Home = () => {
   const [user, setUser] = useState(null);
   const [vehicles, setVehicles] = useState([]);
@@ -103,19 +104,20 @@ const Home = () => {
       ) : (
         <div>
           <main>
-          <nav>
-            <ul>
-              <li>
-                <a href="/">Home</a>
-              </li>
-              <li>
-                <Link to="/user/signin">Sign In</Link>
-              </li>
-            </ul>
-          </nav>
-          <div>
-            You are not Signed In Please Do <Link to="/user/signin">Sign In</Link>
-          </div>
+            <nav>
+              <ul>
+                <li>
+                  <a href="/">Home</a>
+                </li>
+                <li>
+                  <Link to="/user/signin">Sign In</Link>
+                </li>
+              </ul>
+            </nav>
+            <div>
+              You are not Signed In Please Do{" "}
+              <Link to="/user/signin">Sign In</Link>
+            </div>
           </main>
         </div>
       )}
