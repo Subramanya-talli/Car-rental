@@ -38,16 +38,18 @@ const AppContextProvider = ({children})=>{
 
     const values = {
         user,
-        vehicles
+        vehicles,
+        token,
+        setToken
     }
 
 
     useEffect(()=>{
-        getVehicles
+        getVehicles()
     }, [])
 
     useEffect(()=>{
-        getUser
+        getUser()
     }, [token])
 
     return <AppContext.Provider value={values}>
