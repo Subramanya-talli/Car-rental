@@ -72,7 +72,6 @@ userSchema.static(
     }
 
     const token = createToken(user);
-    // console.log("Token Is :", token);
     return token;
   }
 );

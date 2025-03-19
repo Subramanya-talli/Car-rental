@@ -35,8 +35,7 @@ const verifyUser = async function(req, res)
   const { email, password } = req.body;
   try {
     const token = await User.matchPasswordAndGenerateToken(email, password);
-    res.cookie("token", token);
-    return res.json({ redirect: "/"});
+    return res.cookie("token", token);
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
