@@ -1,4 +1,8 @@
 import React from "react";
+import { useContext } from "react";
+import { AppContext } from "../context/AppContext";
+
+
 
 const Herosection = () => {
   return (
@@ -13,10 +17,10 @@ const Herosection = () => {
             vehicle secure, hassle-free, and on your terms!
           </p>
           <a
-            href="/signup"
+            href={ token ? "/" : "/signup"}
             className="inline-flex items-center justify-center px-5 py-3 mr-3 text-lg bg-gray-900 font-medium text-center text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900"
           >
-            Get Started
+            Rent A Car
             <svg
               className="w-5 h-5 ml-2 -mr-1"
               fill="currentColor"

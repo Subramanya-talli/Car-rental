@@ -8,17 +8,14 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    lastName: {
-      type: String,
-      required: true,
-    },
     email: {
       type: String,
       required: true,
-      unique: true,
+      unique: [true, "This email is already exists"],
     },
     mobileNumber: {
-      type: Number,
+      type: String,
+      match: [/\d{10}/, "no should only have digits"],
       required: true,
     },
     salt: {
@@ -28,11 +25,6 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    role: { 
-      type: String, 
-      enum: ["Renter", "Owner"],
-    },
-      
   },
   {
     timestamps: true,

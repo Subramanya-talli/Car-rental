@@ -1,12 +1,14 @@
 import React, { useState, useContext, useEffect } from "react";
+import  { useNavigate} from "react-router-dom"
 import { AppContext } from "../context/AppContext";
 import axios from "axios";
 import { toast } from "react-toastify";
 
 const Login = () => {
+  const navigate = useNavigate()
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { user, token, setToken } = useContext(AppContext);
+
 
   const notify = () => toast("Logged in Succussfully");
 
@@ -16,21 +18,17 @@ const Login = () => {
       const response = await axios.post("http://localhost:5000/user/signin", {
         email,
         password,
-      });
+      },{withCredentials: true });
       localStorage.setItem("token", response.data.token);
       setToken(response.data.token)
+      navigate('/')
     } catch (error) {
       console.log(error.message);
       toast.error(error.response?.data?.message || "Login failed!");
     }
   };
 
-  useEffect(() => {
-    if (token) {
-      navigate('/')
-    }
-  }, [token])
-
+  
 
   return (
     <section className="bg-gray-50 dark:bg-gray-900">

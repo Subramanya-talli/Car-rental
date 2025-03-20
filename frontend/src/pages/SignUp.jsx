@@ -1,18 +1,20 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { AppContext } from "../context/AppContext";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
-//   const { user, token, setToken } = useContext(AppContext);
+    const { user, token, setToken } = useContext(AppContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const responce = await axios.post("http://localhost:5000/user/signup")
+      const responce = await axios.post("http://localhost:5000/user/signup");
+      console.log(responce.data);
     } catch (error) {
-      
+      console.log(error.data);
     }
   };
 
