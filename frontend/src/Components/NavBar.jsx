@@ -4,18 +4,12 @@ import { AppContext } from "../context/AppContext";
 
 const NavBar = () => {
   const navigate = useNavigate();
-
+  const { user, token, setToken } = useContext(AppContext);
 
   const logout = () => {
-    
     setToken(null);
     localStorage.removeItem("token");
-    navigate('/')
   };
-
-  useEffect(() => {
-    console.log("Logout");
-  }, [token]);
 
   return (
     <nav className="bg-gray-900 border-gray-200">
@@ -63,13 +57,33 @@ const NavBar = () => {
             </li>
             <li>
               {token ? (
-                <div className="block w-8">
-                  <a
-                    onClick={logout}
-                    className="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                <div className="flex items-center gap-2 cursor-pointer group relative">
+                  <img
+                    className="w-8 h-8 rounded-full cursor-pointer"
+                    src="\src\assets\profile_.png"
+                    alt="User dropdown"
+                  ></img>
+                  <div
+                    id="userDropdown"
+                    className="absolute w-20 top-8 left-1 bg-gray-900 pt-2 text-base font-medium  z-20 rounded-md hidden group-hover:block"
                   >
-                    Logout
-                  </a>
+                    <div className="text-sm text-white ">
+                      <ul
+                        className="text-sm "
+                        aria-labelledby="avatarButton"
+                      >
+                        <li>
+                          <a
+                            href="#"
+                            className="block px-4 py-2 "
+                            onClick={logout}
+                          >
+                            Logout
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
                 </div>
               ) : (
                 <div>

@@ -10,9 +10,6 @@ const AppContextProvider = ({ children }) => {
     localStorage.getItem("token") ? localStorage.getItem("token") : null
   );
   const [user, setUser] = useState("");
-
-  
-
   async function getVehicles() {
     try {
       const response = await axios.get("http://localhost:5000/api/cars");
