@@ -3,6 +3,7 @@ import Home from "./pages/Home";
 import About from "./pages/About"
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
+import RentCar from "./Components/RentCar";
 
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
         <Route path="/about" element={<About/>}></Route>
         <Route path="/login" element={<Login/>}></Route>
         <Route path="/signup" element={<SignUp/>}></Route>
+        <Route path="/rent" element={<RentCar/>}></Route>
       </Routes>
     </>
   );
