@@ -24,12 +24,53 @@ const BookingForm = () => {
           </a>
         </div>
       </div>
-      <div>
-        {/* <img src={selectedVehicle.img} alt="" /> */}
-        <p>{selectedVehicle.brand}</p>
-        <p>{selectedVehicle.mileage}</p>
-        <p>{selectedVehicle.distanceCovered}</p>
-        <p>{selectedVehicle.fuelType}</p>
+      <div className="flex justify-center items-center mt-8">
+        <div className="rounded-md border border-gray-400 drop-shadow-lg  p-3">
+          <div className="h-55 flex justify-center">
+            <img className="" src={`http://localhost:5000${
+                        selectedVehicle.img.startsWith("/")
+                          ? selectedVehicle.img
+                          : "/" + selectedVehicle.img
+                      }`} alt="" />
+          </div>
+          {/* for img */}
+          <div className="flex flex-row gap-3">
+            <div className="flex flex-col w-md my-3">
+              <p>Brand</p>
+              <p className="border-2 border-gray-300 rounded-sm p-1 my-1 focus:none">
+                {selectedVehicle.brand}
+              </p>
+            </div>
+
+            <div className="flex flex-col w-md my-3">
+              <p>Mileage</p>
+              <p className="border-2 border-gray-300 rounded-sm p-1 my-1 focus:none">
+                {selectedVehicle.mileage}
+              </p>
+            </div>
+          </div>
+
+          <div className="flex flex-row gap-3">
+            <div className="flex flex-col w-md my-3">
+              <p>Distance Covered</p>
+              <p className="border-2 border-gray-300 rounded-sm p-1 my-1 focus:none">
+                {selectedVehicle.distanceCovered}
+              </p>
+            </div>
+
+            <div className="flex flex-col w-md my-3">
+              <p>Fule Type</p>
+              <p className="border-2 border-gray-300 rounded-sm p-1 my-1 focus:none">
+                {selectedVehicle.fuelType}
+              </p>
+            </div>
+          </div>
+          <div className="flex justify-center">
+            <button className="bg-blue-400 text-white p-2 rounded-sm w-full alien-center my-2 font-medium">
+              Book Vehicle
+            </button>
+          </div>
+        </div>
       </div>
       <p>{console.log(selectedVehicle._id)}</p>
     </div>
