@@ -5,7 +5,7 @@ import { AppContext } from "../context/AppContext";
 const NavBar = () => {
   const navigate = useNavigate();
   const { user, token, setToken } = useContext(AppContext);
-
+  const {loggedIn, setLoggedIn} = useState(false)
   const logout = () => {
     setToken(null);
     localStorage.removeItem("token");
