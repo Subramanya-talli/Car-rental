@@ -1,7 +1,8 @@
 import React, { useContext } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
 import { FaArrowCircleLeft } from "react-icons/fa";
+import { ToastContainer, toast} from "react-toastify"
 
 const BookingForm = () => {
   const { vehicles } = useContext(AppContext);
@@ -9,8 +10,11 @@ const BookingForm = () => {
   const data = location.state;
   const vehicleId = data.id;
   const selectedVehicle = vehicles.find((vehicle) => vehicle._id == vehicleId);
+  const navigate = useNavigate();
 
-  console.log(selectedVehicle);
+  const notify = () => {toast("Vehicle has been booked")
+  }
+
   return (
     <div className="p-2 m-4">
       <div className="flex items-center justify-between">
@@ -23,8 +27,10 @@ const BookingForm = () => {
             <FaArrowCircleLeft /> <span className="ml-1">Cancel</span>
           </a>
         </div>
+        
       </div>
       <div className="flex justify-center items-center mt-8">
+      <ToastContainer/>
         <div className="rounded-md border border-gray-400 drop-shadow-lg  p-3">
           <div className="h-55 flex justify-center">
             <img className="" src={`http://localhost:5000${
@@ -33,7 +39,6 @@ const BookingForm = () => {
                           : "/" + selectedVehicle.img
                       }`} alt="" />
           </div>
-          {/* for img */}
           <div className="flex flex-row gap-3">
             <div className="flex flex-col w-md my-3">
               <p>Brand</p>
@@ -66,13 +71,13 @@ const BookingForm = () => {
             </div>
           </div>
           <div className="flex justify-center">
-            <button className="bg-blue-400 text-white p-2 rounded-sm w-full alien-center my-2 font-medium">
+            <button onClick={notify} className="bg-blue-400 text-white p-2 rounded-sm w-full alien-center my-2 font-medium">
               Book Vehicle
             </button>
           </div>
+          
         </div>
       </div>
-      <p>{console.log(selectedVehicle._id)}</p>
     </div>
   );
 };

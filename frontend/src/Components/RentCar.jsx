@@ -5,8 +5,11 @@ import { AppContext } from "../context/AppContext";
 import ReactLoading from "react-loading";
 
 const RentCar = () => {
+ 
   const navigate = useNavigate();
   const { vehicles, token } = useContext(AppContext);
+  const [sort, setSort] = useState(vehicles)
+
   const handlebooking = (id) => {
     if (token) {
       const data = {id : id}
@@ -28,7 +31,14 @@ const RentCar = () => {
               <h1 className="font-medium text-3xl text-gray-900">
                 Vehicles Availabel For Rent
               </h1>
-              <input type="text" className="border" placeholder="SortBy" />
+              <div className="flex flex-row items-center">
+                <label htmlFor="vehicles" className="mx-1">Sort By</label>
+                <select name="vehicles" id="vehicles" className="border ">
+                  <option value="Distance Covered">Distance Covered</option>
+                  <option value="Mileage">Mileage</option>
+                  <option value="FuleType">Fule Type</option>
+                </select>
+              </div>
             </div>
             <div className="py-2 mt-6 grid grid-flow-col grid-columns-3">
               {vehicles.map((vehicle) => (
