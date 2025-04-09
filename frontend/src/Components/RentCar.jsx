@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { AppContext } from "../context/AppContext";
@@ -8,7 +8,8 @@ const RentCar = () => {
  
   const navigate = useNavigate();
   const { vehicles, token } = useContext(AppContext);
-  const [sort, setSort] = useState(vehicles)
+  const [sortedVehicles, setSortedVehicles] = useState(vehicles)
+  const [sortBy, setSortBy] = useState("distanceCovered")
 
   const handlebooking = (id) => {
     if (token) {
@@ -20,10 +21,30 @@ const RentCar = () => {
       navigate('/signup')
     }
   };
+
+  const handleSorting = ((e)=>{
+    setSortBy(e.target.value);
+  })
+
+
+  useEffect(() => {
+    if (vehicles && vehicles.length > 0) {
+      const sorted = [...vehicles].sort((a, b) => {
+        if (a[sortBy] > b[sortBy]) return 1;
+        if (a[sortBy] < b[sortBy]) return -1;
+        return 0;
+      });
+      setSortedVehicles(sorted);
+    }
+  }, [vehicles, sortBy]);
+
+  console.log(vehicles)
+  console.log( "Sorted :", sortedVehicles)
+
   return (
     <div>
       <div className="flex flex-col m-4 p-3">
-        {vehicles.length == 0 ? (
+        {sortedVehicles.length == 0 ? (
           <h1>No vehicle</h1>
         ) : (
           <div>
@@ -32,16 +53,16 @@ const RentCar = () => {
                 Vehicles Availabel For Rent
               </h1>
               <div className="flex flex-row items-center">
-                <label htmlFor="vehicles" className="mx-1">Sort By</label>
-                <select name="vehicles" id="vehicles" className="border ">
-                  <option value="Distance Covered">Distance Covered</option>
-                  <option value="Mileage">Mileage</option>
-                  <option value="FuleType">Fule Type</option>
+                <label htmlFor="vehicles" id="vehicles" className="mx-1">Sort By</label>
+                <select name="vehicles" id="vehicles" className="border" onChange={handleSorting}>
+                  <option value="distanceCovered">Distance Covered</option>
+                  <option value="mileage">Mileage</option>
+                  <option value="fuelType">Fule Type</option>
                 </select>
               </div>
             </div>
             <div className="py-2 mt-6 grid grid-flow-col grid-columns-3">
-              {vehicles.map((vehicle) => (
+              {sortedVehicles.map((vehicle) => (
                 <div
                   className="w-xs min-h-40 p-2 border border-gray-300 rounded-sm"
                   key={vehicle._id}
