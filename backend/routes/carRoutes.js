@@ -3,6 +3,7 @@ const { createNewCarEntry, getAllCarInfo, getACarInfo, updateCarInfo, deleteCarI
 const route = express.Router();
 const upload = require("../middleware/upload")
 
+
 route.get("/cars",  getAllCarInfo);
 route.post("/car/add", upload.single("img"), createNewCarEntry);
 route.get("/car/get/:id",  getACarInfo);

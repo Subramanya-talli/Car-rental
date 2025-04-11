@@ -20,7 +20,7 @@ const BookingForm = () => {
   };
  
   return (
-    <div className="p-2 m-4">
+    <div className="p-2 m-4 ">
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-base">Booking Form</h1>
         <div>
@@ -34,10 +34,10 @@ const BookingForm = () => {
       </div>
       <div className="flex justify-center items-center mt-8">
         <ToastContainer />
-        <div className="rounded-md border border-gray-400 drop-shadow-lg  p-3">
-          <div className="h-55 flex justify-center">
+        <div className="rounded-md border border-gray-400 drop-shadow-lg  p-3 min-w-7xl min-h-full">
+          <div className=" flex justify-center">
             <img
-              className=""
+              className="p-2 object-cover"
               src={`http://localhost:5000${
                 selectedVehicle.img.startsWith("/")
                   ? selectedVehicle.img
@@ -46,32 +46,32 @@ const BookingForm = () => {
               alt=""
             />
           </div>
-          <div className="flex flex-row gap-3">
-            <div className="flex flex-col w-md my-3">
-              <p>Brand</p>
+          <div className="flex flex-row justify-evenly">
+            <div className="flex flex-col w-lg my-3">
+              <p className="font-semibold">Brand</p>
               <p className="border-2 border-gray-300 rounded-sm p-1 my-1 focus:none">
                 {selectedVehicle.brand}
               </p>
             </div>
 
-            <div className="flex flex-col w-md my-3">
-              <p>Mileage</p>
+            <div className="flex flex-col w-lg my-3">
+              <p className="font-semibold">Mileage</p>
               <p className="border-2 border-gray-300 rounded-sm p-1 my-1 focus:none">
                 {selectedVehicle.mileage}
               </p>
             </div>
           </div>
 
-          <div className="flex flex-row gap-3">
-            <div className="flex flex-col w-md my-3">
-              <p>Distance Covered</p>
+          <div className="flex flex-row justify-evenly">
+            <div className="flex flex-col w-lg my-3">
+              <p className="font-semibold">Distance Covered</p>
               <p className="border-2 border-gray-300 rounded-sm p-1 my-1 focus:none">
                 {selectedVehicle.distanceCovered}
               </p>
             </div>
 
-            <div className="flex flex-col w-md my-3">
-              <p>Fule Type</p>
+            <div className="flex flex-col w-lg my-3">
+              <p className="font-semibold">Fule Type</p>
               <p className="border-2 border-gray-300 rounded-sm p-1 my-1 focus:none">
                 {selectedVehicle.fuelType}
               </p>
